@@ -1,0 +1,18 @@
+{
+    "name": "static-site",
+    "version": "1.0.0",
+    "description": "content management system for employee data",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "node server.js"
+    },
+    "author": "Leslie Crouch",
+    "license": "none",
+    "dependencies": {
+        "inquirer": "^6.3.1",
+        "express": "^4.17.1",
+        "mysql2": "^2.3.3",
+        "console.table": "^0.10.0"
+    }
+}
