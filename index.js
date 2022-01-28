@@ -35,6 +35,82 @@ function userInit() {
         // });
 };
 
+function viewDept(){
+    //routes//
+}
+
+function viewRoles(){
+
+}
+
+function viewEmployees(){
+    
+}
+function addDept() {
+    inquirer
+        .prompt([
+            {
+                type:'input',
+                name:'method',
+                message: 'What is the name of the department you would like to add?',
+            },
+        ])        
+}
+
+function addRole() {
+    inquirer
+        .prompt([
+            {
+                type:'input',
+                name:'method',
+                message: 'What is the name of the role you would like to add?',
+            },
+            {
+                type:'input',
+                name:'method',
+                message: 'What is the salary of the role?',
+            },
+            {
+                type:'input',
+                name:'method',
+                message: 'What department does the role belong to?',
+            },
+        ])        
+}
+
+function addEmployee() {
+    inquirer
+        .prompt([
+            {
+                type:'input',
+                name:'method',
+                message: 'What is the name of the employee you would like to add?',
+            },
+            {
+                type:'input',
+                name:'method',
+                message: 'What is the role of the employee?',
+            },
+        ])        
+}
+
+function updateEmployee() {
+    inquirer
+        .prompt([
+            {
+                type:'input',
+                name:'method',
+                message: 'What is the name of the employee you would like to add?',
+            },
+            {
+                type:'input',
+                name:'method',
+                message: 'What is the role of the employee?',
+            },
+        ])        
+}
+
+
 //You might want to use a separate file that contains functions for performing specific SQL queries you'll need to use. A constructor function or class could be helpful for organizing these.
 //You might also want to make your queries asynchronous. MySQL2 exposes a `.promise()` function on Connections 
 //to upgrade an existing non-Promise connection to use Promises. To learn more and make your queries asynchronous, 
