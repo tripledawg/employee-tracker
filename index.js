@@ -34,25 +34,24 @@ function userInit() {
                 }
             },
         ])
-        // .then((usererAnswers) => {
-        //     const { name, id, email, officeNumber } = userAnswers;
-        //     const manager = new Manager(name, id, email, officeNumber);
-        //     teamMembers.push(manager);
-        //     console.log("Welcome " + userAnswers.name + "! Now let's assemble your team.");  ///how to insert name??
-        //     employeeInit();
-        // });
 };
 
-function viewDepts(){
-    //routes//?
+const viewDepts = async () => {  //const or function?
+    const result = await fetch(viewAllDepts, {
+        method: 'GET',
+    });
 }
 
-function viewRoles(){
-  //routes//?
+const viewRoles = async () => {
+    const result = await fetch(viewAllRoles, {
+        method: 'GET',
+    });
 }
 
-function viewEmployees(){
-  //routes//?
+const viewEmployees = async () => {
+    const result = await fetch(viewAllEmployees, {
+        method: 'GET',
+    });
 }
 function addDept() {
     inquirer
