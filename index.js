@@ -2,7 +2,7 @@
 const inquirer = require('inquirer'); //for building user input prompts
 const fs = require('fs');//file system to write input to file
 const mysql = require('mysql2/promise');
-const table = require('console.table');
+const table = require('console.table');//displays tables in a user friendly manner on command line 
 
 //global constants
 
@@ -15,7 +15,7 @@ function userInit() {
                 type: 'list',
                 name: 'method',
                 message: 'What would you like to do?',
-                choices: ['View All Departments', 'View All Roles', 'View All Employees', 'Add Department', 'Add  Role', 'Add Employee', 'Update Employee Role'],
+                choices: ['View All Departments', 'View All Roles', 'View All Employees', 'Add Department', 'Add Role', 'Add Employee', 'Update Employee Role'],
                 validate: list => {
                     if (list) {
                         return true;
@@ -35,16 +35,16 @@ function userInit() {
         // });
 };
 
-function viewDept(){
-    //routes//
+function viewDepts(){
+    //routes//?
 }
 
 function viewRoles(){
-
+  //routes//?
 }
 
 function viewEmployees(){
-    
+  //routes//?
 }
 function addDept() {
     inquirer
@@ -71,9 +71,10 @@ function addRole() {
                 message: 'What is the salary of the role?',
             },
             {
-                type:'input',
+                type:'list',
                 name:'method',
                 message: 'What department does the role belong to?',
+                choices: ['Paper Solutions', 'Software Solutions'],
             },
         ])        
 }
@@ -84,28 +85,40 @@ function addEmployee() {
             {
                 type:'input',
                 name:'method',
-                message: 'What is the name of the employee you would like to add?',
+                message: 'What is the first name of the employee you would like to add?',
             },
             {
                 type:'input',
                 name:'method',
+                message: 'What is the last name of the employee you would like to add?',
+            },
+            {
+                type:'list',
+                name:'method',
                 message: 'What is the role of the employee?',
+            },
+            {
+                type:'list',
+                name:'method',
+                message: 'Who is the employee\'s manager?',
+                choices: ['Michael Scott', 'Monical Hall']
             },
         ])        
 }
 
-function updateEmployee() {
+function updateEmployeeRole() {
     inquirer
         .prompt([
             {
                 type:'input',
                 name:'method',
-                message: 'What is the name of the employee you would like to add?',
+                message: 'Which employee\'s role do you want to update?',
             },
             {
                 type:'input',
                 name:'method',
-                message: 'What is the role of the employee?',
+                message: 'What role would you like to assign to the selected employee?',
+                choices: ['Sales', 'Customer Service', 'Temp', 'Accountant', 'Warehousing', 'Manager', 'HR', 'Engineer', 'junior dev', 'CEO', 'Incubator','Personal Assistant'],
             },
         ])        
 }
