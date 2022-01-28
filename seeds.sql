@@ -17,24 +17,66 @@ VALUES ('Sales', 55000,(SELECT id FROM department WHERE department_name='Paper S
 ('Incubator', 150000, (SELECT id FROM department WHERE department_name='Software Solutions')),
 ('Personal Assistant', 150000, (SELECT id FROM department WHERE department_name='Software Solutions'));
 
+INSERT INTO employee (employee_role_id, first_name, last_name, manager_id)
+VALUES ((SELECT er.id FROM employee_role er JOIN department dr on dr.id = er.department_id WHERE er.title='Manager' AND dr.department_name = 'Paper Solutions'),'Michael','Scott', NULL),
+((SELECT er.id FROM employee_role er JOIN department dr on dr.id = er.department_id WHERE er.title='Manager' AND dr.department_name = 'Software Solutions'),'Monica', 'Hall', null);
 
 INSERT INTO employee (employee_role_id, first_name, last_name, manager_id)
-VALUES ((SELECT id FROM employee_role WHERE title='Sales'),'Dwight', 'Schrute', (SELECT id FROM employee WHERE first_name='Michael' AND last_name='Scott')),
-((SELECT id FROM employee_role WHERE title='Sales'),'Jim','Halpert',(SELECT id FROM employee WHERE first_name='Michael' AND last_name='Scott')),
-((SELECT id FROM employee_role WHERE title='Accountant'),'Oscar','Martinez',(SELECT id FROM employee WHERE first_name='Michael' AND last_name='Scott')),
-((SELECT id FROM employee_role WHERE title='Warehousing'),'Darryl','Philbin',(SELECT id FROM employee WHERE first_name='Michael' AND last_name='Scott')),
-((SELECT id FROM employee_role WHERE title='Accountant'),'Angela','Martin',(SELECT id FROM employee WHERE first_name='Michael' AND last_name='Scott')),
-((SELECT id FROM employee_role WHERE title='HR Rep'),'Toby','Flenderson',(SELECT id FROM employee WHERE first_name='Michael' AND last_name='Scott')),
-((SELECT id FROM employee_role WHERE title='Temp'),'Ryan','Howard',(SELECT id FROM employee WHERE first_name='Michael' AND last_name='Scott')),
-((SELECT id FROM employee_role WHERE title='Customer Service'),'Kelly', 'Kapoor',(SELECT id FROM employee WHERE first_name='Michael' AND last_name='Scott')),
-((SELECT id FROM employee_role WHERE title='Manager'),'Michael','Scott', NULL),
-((SELECT id FROM employee_role WHERE title='Incubator'),'Erlich','Bachman',(SELECT id FROM employee WHERE first_name='Monica' AND last_name='Hall')),
-((SELECT id FROM employee_role WHERE title='Engineer'),'Richard','Hendricks',(SELECT id FROM employee WHERE first_name='Monica' AND last_name='Hall')),
-((SELECT id FROM employee_role WHERE title='Engineer'),'Dinesh','Chugtai',(SELECT id FROM employee WHERE first_name='Monica' AND last_name='Hall')),
-((SELECT id FROM employee_role WHERE title='Engineer'),'Bertram','Gilfoyle',(SELECT id FROM employee WHERE first_name='Monica' AND last_name='Hall')),
-((SELECT id FROM employee_role WHERE title='Manager'),'Monica', 'Hall', null),
-((SELECT id FROM employee_role WHERE title='Personal Assistant'),'Jared','Dunn',(SELECT id FROM employee WHERE first_name='Monica' AND last_name='Hall')),
-((SELECT id FROM employee_role WHERE title='Junior Dev'),'Jian','Yang', null),
-((SELECT id FROM employee_role WHERE title='CEO'),'Gavin','Belson', null);
+SELECT er.id, 'Dwight', 'Schrute', e.id FROM employee e
+    LEFT JOIN employee_role er on 'Sales' = er.title
+    WHERE e.first_name = 'Michael' AND e.last_name = 'Scott';
+INSERT INTO employee (employee_role_id, first_name, last_name, manager_id)
+SELECT er.id, 'Jim', 'Halpert', e.id FROM employee e
+    LEFT JOIN employee_role er on 'Sales' = er.title
+    WHERE e.first_name = 'Michael' AND e.last_name = 'Scott';
+INSERT INTO employee (employee_role_id, first_name, last_name, manager_id)
+SELECT er.id, 'Oscar', 'Martinez', e.id FROM employee e
+    LEFT JOIN employee_role er on 'Accountant' = er.title
+    WHERE e.first_name = 'Michael' AND e.last_name = 'Scott';
+INSERT INTO employee (employee_role_id, first_name, last_name, manager_id)
+SELECT er.id, 'Darryl', 'Philbin', e.id FROM employee e
+    LEFT JOIN employee_role er on 'Warehousing' = er.title
+    WHERE e.first_name = 'Michael' AND e.last_name = 'Scott';
+INSERT INTO employee (employee_role_id, first_name, last_name, manager_id)
+SELECT er.id, 'Angela', 'Martin', e.id FROM employee e
+    LEFT JOIN employee_role er on 'Accountant' = er.title
+    WHERE e.first_name = 'Michael' AND e.last_name = 'Scott';
+INSERT INTO employee (employee_role_id, first_name, last_name, manager_id)
+SELECT er.id, 'Toby', 'Flenderson', e.id FROM employee e
+    LEFT JOIN employee_role er on 'HR' = er.title
+    WHERE e.first_name = 'Michael' AND e.last_name = 'Scott';
+    INSERT INTO employee (employee_role_id, first_name, last_name, manager_id)
+SELECT er.id, 'Ryan', 'Howard', e.id FROM employee e
+    LEFT JOIN employee_role er on 'Temp' = er.title
+    WHERE e.first_name = 'Michael' AND e.last_name = 'Scott';
+INSERT INTO employee (employee_role_id, first_name, last_name, manager_id)
+SELECT er.id, 'Kelly', 'Kapoor', e.id FROM employee e
+    LEFT JOIN employee_role er on 'Customer Service' = er.title
+    WHERE e.first_name = 'Michael' AND e.last_name = 'Scott';
+INSERT INTO employee (employee_role_id, first_name, last_name, manager_id)
+SELECT er.id, 'Erlich', 'Bachman', e.id FROM employee e
+    LEFT JOIN employee_role er on 'Incubator' = er.title
+    WHERE e.first_name = 'Monica' AND e.last_name = 'Hall';
+INSERT INTO employee (employee_role_id, first_name, last_name, manager_id)
+SELECT er.id, 'Richard', 'Hendricks', e.id FROM employee e
+    LEFT JOIN employee_role er on 'Engineer' = er.title
+    WHERE e.first_name = 'Monica' AND e.last_name = 'Hall';
+INSERT INTO employee (employee_role_id, first_name, last_name, manager_id)
+SELECT er.id, 'Dinesh', 'Chugtai', e.id FROM employee e
+    LEFT JOIN employee_role er on 'Engineer' = er.title
+    WHERE e.first_name = 'Monica' AND e.last_name = 'Hall';
+INSERT INTO employee (employee_role_id, first_name, last_name, manager_id)
+SELECT er.id, 'Bertram', 'Gilfoyle', e.id FROM employee e
+    LEFT JOIN employee_role er on 'Engineer' = er.title
+    WHERE e.first_name = 'Monica' AND e.last_name = 'Hall';
+INSERT INTO employee (employee_role_id, first_name, last_name, manager_id)
+SELECT er.id, 'Jared', 'Dunn', e.id FROM employee e
+    LEFT JOIN employee_role er on 'Personal Assistant' = er.title
+    WHERE e.first_name = 'Monica' AND e.last_name = 'Hall';
+INSERT INTO employee (employee_role_id, first_name, last_name, manager_id)
+SELECT er.id, 'Jian', 'Yang', e.id FROM employee e
+    LEFT JOIN employee_role er on 'Engineer' = er.title
+    WHERE e.first_name = 'Erlich' AND e.last_name = 'Bachman';
+
 
 
