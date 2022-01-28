@@ -2,9 +2,17 @@
 const inquirer = require('inquirer'); //for building user input prompts
 const fs = require('fs');//file system to write input to file
 const mysql = require('mysql2/promise');
+//middleware
 const table = require('console.table');//displays tables in a user friendly manner on command line 
+//adding SQL queries
+const addDept = require('add_dept.sql');
+const addEmployee = require('add_employee.sql');
+const addRole = require('add_role.sql');
+const updateEmployee = require('update_employee.sql');
+const viewAllDepts = require('view_all_depts.sql');
+const viewAllEmployees = require('view_all_employees.sql');
+const viewAllRoles = require('view_all_roles');
 
-//global constants
 
 //function to start input prompts for the manager about employees
 
@@ -128,11 +136,5 @@ function updateEmployeeRole() {
 //You might also want to make your queries asynchronous. MySQL2 exposes a `.promise()` function on Connections 
 //to upgrade an existing non-Promise connection to use Promises. To learn more and make your queries asynchronous, 
 //refer to the [npm documentation on MySQL2](https://www.npmjs.com/package/mysql2).
-//WHEN view all departments => table with dept names and dept ids
-//WHEN view all roles => job title,  role id, the department that role belongs to, and the salary for that role
-//WHEN view all employees => formatted table showing employee data, including employee ids, first names, last names, job titles, departments, salaries, and managers that the employees report to
-//WHEN add department => prompted to enter the name of the department and that department is added to the database
-//WHEN add role => prompted to enter the name, salary, and department for the role and that role is added to the database
-//WHEN add employee => prompted to enter the employee’s first name, last name, role, and manager, and that employee is added to the database
-//WHEN update employee role => prompted to select an employee to update and their new role and this information is updated in the database 
+
 userInit();

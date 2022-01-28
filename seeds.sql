@@ -1,6 +1,5 @@
 INSERT INTO department (department_name)
-VALUES ('Paper Solutions'),
-        ('Software Solutions');
+VALUES ('Paper Solutions'),('Software Solutions');
   
 
 INSERT INTO employee_role (title, salary, department_id)
@@ -18,6 +17,7 @@ VALUES ('Sales', 55000,(SELECT id FROM department WHERE department_name='Paper S
 ('Incubator', 150000, (SELECT id FROM department WHERE department_name='Software Solutions')),
 ('Personal Assistant', 150000, (SELECT id FROM department WHERE department_name='Software Solutions'));
 
+
 INSERT INTO employee (employee_role_id, first_name, last_name, manager_id)
 VALUES ((SELECT id FROM employee_role WHERE title='Sales'),'Dwight', 'Schrute', (SELECT id FROM employee WHERE first_name='Michael' AND last_name='Scott')),
 ((SELECT id FROM employee_role WHERE title='Sales'),'Jim','Halpert',(SELECT id FROM employee WHERE first_name='Michael' AND last_name='Scott')),
@@ -25,7 +25,7 @@ VALUES ((SELECT id FROM employee_role WHERE title='Sales'),'Dwight', 'Schrute', 
 ((SELECT id FROM employee_role WHERE title='Warehousing'),'Darryl','Philbin',(SELECT id FROM employee WHERE first_name='Michael' AND last_name='Scott')),
 ((SELECT id FROM employee_role WHERE title='Accountant'),'Angela','Martin',(SELECT id FROM employee WHERE first_name='Michael' AND last_name='Scott')),
 ((SELECT id FROM employee_role WHERE title='HR Rep'),'Toby','Flenderson',(SELECT id FROM employee WHERE first_name='Michael' AND last_name='Scott')),
-((SELECT id FROM employee_role WHERE title='Temp'),'Ryan','Howard',(SELECT id FROM employee WHERE first_name='Michael' AND last_name='Scott'),
+((SELECT id FROM employee_role WHERE title='Temp'),'Ryan','Howard',(SELECT id FROM employee WHERE first_name='Michael' AND last_name='Scott')),
 ((SELECT id FROM employee_role WHERE title='Customer Service'),'Kelly', 'Kapoor',(SELECT id FROM employee WHERE first_name='Michael' AND last_name='Scott')),
 ((SELECT id FROM employee_role WHERE title='Manager'),'Michael','Scott', NULL),
 ((SELECT id FROM employee_role WHERE title='Incubator'),'Erlich','Bachman',(SELECT id FROM employee WHERE first_name='Monica' AND last_name='Hall')),
