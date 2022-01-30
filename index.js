@@ -3,9 +3,8 @@ const inquirer = require('inquirer'); //for building user input prompts
 const fs = require('fs');//file system to write input to file
 const mysql = require('mysql2/promise');
 //middleware
-// const table = require('console.table');//displays tables in a user friendly manner on command line 
-//adding SQL queries
 
+//adding SQL queries
 const schemaInitialize = fs.readFileSync('./schema.sql').toString();
 const seedInsert = fs.readFileSync('./seeds.sql').toString();
 const viewAllDepts = fs.readFileSync('./view_all_depts.sql').toString();
@@ -14,7 +13,7 @@ const viewAllRoles = fs.readFileSync('./view_all_roles').toString();
 const addDeptQuery = fs.readFileSync('./add_dept_.sql').toString();
 const addRoleQuery = fs.readFileSync('./add_role.sql').toString();
 const addEmployeeQuery = fs.readFileSync('./add_employee.sql').toString();
-const updateEmployee = fs.readFileSync('./update_employee.sql').toString();
+const updateEmployeeQuery = fs.readFileSync('./update_employee.sql').toString();
 
 
 //function to start input prompts for the manager about employees
@@ -53,8 +52,11 @@ const userInit = async () => {
     switch (answers.method) {
         case 'View All Departments':
             let departmentResults = await viewDepts();
-            console.log(departmentResults[0][1]);
             console.table(departmentResults[0][1]);
+            break;
+        case 'View All Roles':
+            let roleResults = await viewRoles();
+            console.table(roleResults[0][1]);
             break;
         case 'View All Employees':
             let employeeResults = await viewEmployees();
@@ -68,6 +70,14 @@ const userInit = async () => {
             let addRoleResults = await addRole();
             console.log('Added role ' + addRoleResults);
             break;
+        case 'Add Employee':
+            let addEmployeeResults = await addEmployee();
+            console.log('Added employee ' + addEmployeeResults);
+            break;
+        case 'Update Employee Role':
+            let updateEmployeeResults = await updateEmployeeRole();
+            console.log(updateEmployeeResults);
+            break;
         case 'Exit':
             console.log('Bye!');
             process.exit();
@@ -77,27 +87,36 @@ const userInit = async () => {
 
 
 const viewDepts = async () => {
-    let result = await connection.query(viewAllDepts);
+    let result = connection.query(viewAllDepts);
     return result;
-};
-const viewRoles = async () => {
-    let result = await connection.query(viewAllRoles);
-    return result;
-};
-const viewEmployees = async () => {
-    let result = await connection.query(viewAllEmployees);
-    return result;
-};
+}
 
-function addDept() {
-    inquirer
+const viewRoles = async () => {
+    let result = connection.query(viewAllRoles);
+    return result;
+}
+
+const viewEmployees = async () => {
+    let result = connection.query(viewAllEmployees);
+    return result;
+}
+
+const getManagers = async () => {
+    let result = connection.query(getAllManagers);
+    return result;
+}
+
+const addDept = async () => {
+    let answers = await inquirer
         .prompt([
             {
                 type: 'input',
                 name: 'method',
-                message: 'What is the name of the department you would like to add?',
-            },
-        ])
+                message: 'What is the name of the department you would like to add?'
+            }
+        ]);
+    await connection.query(addDeptQuery, { department_name: answers.method });
+    return answers.method;
 }
 
 const addRole = async () => {
@@ -131,48 +150,78 @@ const addRole = async () => {
 }
 
 
-function addEmployee() {
-    inquirer
+const addEmployee = async () => {
+    let roleResults = await viewRoles();
+    let roleTitles = [];
+    roleResults[0][1].forEach((element) => {
+        roleTitles.push(element.title);
+    });
+    let managerResults = await getManagers();
+    let managerNames = [];
+    managerResults[0][1].forEach((element) => {
+        managerNames.push(element.first_name + ' ' + element.last_name);
+    });
+    let answers = await inquirer
         .prompt([
             {
                 type: 'input',
-                name: 'firstName',
+                name: 'fname',
                 message: 'What is the first name of the employee you would like to add?',
             },
             {
                 type: 'input',
-                name: 'lastName',
+                name: 'lname',
                 message: 'What is the last name of the employee you would like to add?',
             },
             {
                 type: 'list',
                 name: 'role',
                 message: 'What is the role of the employee?',
+                choices: roleTitles
             },
             {
                 type: 'list',
                 name: 'manager',
                 message: 'Who is the employee\'s manager?',
-                choices: ['Michael Scott', 'Monical Hall']
-            },
-        ])
+                choices: managerNames
+            }
+        ]);
+    let managerFirstLast = answers.manager.split(" ");
+    let values = [answers.fname, answers.lname, answers.role, managerFirstLast[0], managerFirstLast[1]];
+    await connection.query(addEmployeeQuery, values);
+    return answers.fname + ' ' + answers.lname;
 }
 
-function updateEmployeeRole() {
-    inquirer
+const updateEmployeeRole = async () => {
+    let employeeResults = await viewEmployees();
+    let employeeNames = [];
+    employeeResults[0][1].forEach((element) => {
+        employeeNames.push(element.first_name + ' ' + element.last_name);
+    });
+    let roleResults = await viewRoles();
+    let roleTitles = [];
+    roleResults[0][1].forEach((element) => {
+        roleTitles.push(element.title);
+    });
+    let answers = await inquirer
         .prompt([
             {
-                type: 'input',
-                name: 'method',
+                type: 'list',
+                name: 'fullName',
                 message: 'Which employee\'s role do you want to update?',
+                choices: employeeNames
             },
             {
-                type: 'input',
-                name: 'method',
+                type: 'list',
+                name: 'title',
                 message: 'What role would you like to assign to the selected employee?',
-                choices: ['Sales', 'Customer Service', 'Temp', 'Accountant', 'Warehousing', 'Manager', 'HR', 'Engineer', 'junior dev', 'CEO', 'Incubator', 'Personal Assistant'],
+                choices: roleTitles
             },
-        ])
+        ]);
+    let employeeFirstLast = answers.fullName.split(" ");
+    let values = [answers.title, employeeFirstLast[0], employeeFirstLast[1]];
+    await connection.query(updateEmployeeQuery, values);
+    return answers.fullName + ' role updated to ' + answers.title;
 }
 
 main();
