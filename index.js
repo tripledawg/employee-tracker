@@ -49,33 +49,46 @@ function userInit() {
                         return false;
                     }
                 }
-            },
-        ]).then(choices => {
-            console.log('You selected to ' = choices.method);
-            if(choices.method == 'View All Employees'') {
-                console.log('You chose to ' = choices.methid);
-                let results
             }
-        }
+        ]).then((choices) => {
+            console.log('You chose to ' + choices.method);
+            switch (choices.method) {
+                case 'View All Employees':
+                    let results = viewEmployees().then((results) => {
+                        console.table(results[0][1]);
+                    });
+                    break;
+                case 'View All Departments':
+                    let results = viewDepts().then((results) => {
+                        console.table(results[0][1]);
+                    });
+                    break;
+                case 'View All Roles':
+                    let results = viewRoles().then((results) => {
+                        console.table(results[0][1]);
+                    });
+                    break;
+                case 'Exit':
+                    console.log('Bye!');
+                    process.exit();
+            }
+        }).then(() => userInit());
 };
 
-const viewDepts = async () => {  //const or function?
-    const result = await fetch(viewAllDepts, {
-        method: 'GET',
-    });
-}
 
+const viewDepts = async () => { 
+    let result = await connection.query(viewAllDepts);
+    return result;
+};
 const viewRoles = async () => {
-    const result = await fetch(viewAllRoles, {
-        method: 'GET',
-    });
-}
-
+    let result = await connection.query(viewAllRoles);
+    return result;
+};
 const viewEmployees = async () => {
-    const result = await fetch(viewAllEmployees, {
-        method: 'GET',
-    });
-}
+    let result = await connection.query(viewAllEmployees);
+    return result;
+};
+
 function addDept() {
     inquirer
         .prompt([
