@@ -1,8 +1,8 @@
 # Employee-Tracker
-  ## ![full size screenshot](screenshot.png) 
-  ![responsive screenshot](screenshot_responsive.png)
+  ## ![full size screenshot](Screenshot.png) 
+ 
 
-  	[Demo Video](https://www.example.com)
+  	[Demo Video](https://watch.screencastify.com/v/680yDZbtzRenwcHIeAvc)
 
   ## Licensing:
   [![license](https://img.shields.io/badge/license-none-blue)](https://shields.io)
