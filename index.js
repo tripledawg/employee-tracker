@@ -31,8 +31,8 @@ async function main() {
     userInit();
 }
 
-function userInit() {
-    inquirer
+const userInit = async () => {
+    let answers = await inquirer
         .prompt([
             {
                 type: 'list',
@@ -48,34 +48,31 @@ function userInit() {
                     }
                 }
             }
-        ]).then((choices) => {
-            console.log('You chose to ' + choices.method);
-            switch (choices.method) {
-                case 'View All Employees':
-                    let results = viewEmployees().then((results) => {
-                        console.table(results[0][1]);
-                    });
-                    break;
-                case 'View All Departments':
-                    let results = viewDepts().then((results) => {
-                        console.table(results[0][1]);
-                    });
-                    break;
-                case 'View All Roles':
-                    let results = viewRoles().then((results) => {
-                        console.table(results[0][1]);
-                    });
-                    break;
-                case 'Add Role':
-                    let addRoleResults = await addRole(); 
-                        console.log('Added role + addRoleResults')
-                    });
-                    break;
-                case 'Exit':
-                    console.log('Bye!');
-                    process.exit();
-            }
-        }).then(() => userInit());
+        ]);
+    console.log('You chose to ' + answers.method);
+    switch (answers.method) {
+        case 'View All Departments':
+            let departmentResults = await viewDepts();
+            console.log(departmentResults[0][1]);
+            console.table(departmentResults[0][1]);
+            break;
+        case 'View All Employees':
+            let employeeResults = await viewEmployees();
+            console.table(employeeResults[0][1]);
+            break;
+        case 'Add Department':
+            let addDepartmentResults = await addDept();
+            console.log('Added department ' + addDepartmentResults);
+            break;
+        case 'Add Role':
+            let addRoleResults = await addRole();
+            console.log('Added role ' + addRoleResults);
+            break;
+        case 'Exit':
+            console.log('Bye!');
+            process.exit();
+    }
+    await userInit();
 };
 
 
@@ -128,8 +125,8 @@ const addRole = async () => {
                 choices: departmentNames
             },
         ]);
-    let values = [ answers.roleName, answers.salary, answers.department ];
-    await connection.query(addRoleQuery, values); 
+    let values = [answers.roleName, answers.salary, answers.department];
+    await connection.query(addRoleQuery, values);
     return answers.roleName;
 }
 
