@@ -5,18 +5,16 @@ const mysql = require('mysql2/promise');
 //middleware
 // const table = require('console.table');//displays tables in a user friendly manner on command line 
 //adding SQL queries
-// const addDept = require('add_dept.sql');
-// const addEmployee = require('add_employee.sql');
-// const addRole = require('add_role.sql');
-// const updateEmployee = require('update_employee.sql');
-// const viewAllDepts = require('view_all_depts.sql');
-// const viewAllEmployees = require('view_all_employees.sql');
-// const viewAllRoles = require('view_all_roles');
+
 const schemaInitialize = fs.readFileSync('./schema.sql').toString();
 const seedInsert = fs.readFileSync('./seeds.sql').toString();
 const viewAllDepts = fs.readFileSync('./view_all_depts.sql').toString();
 const viewAllEmployees = fs.readFileSync('./view_all_employees.sql').toString();
 const viewAllRoles = fs.readFileSync('./view_all_roles').toString();
+const addDeptQuery = fs.readFileSync('./add_dept_.sql').toString();
+const addRoleQuery = fs.readFileSync('./add_role.sql').toString();
+const addEmployeeQuery = fs.readFileSync('./add_employee.sql').toString();
+const updateEmployee = fs.readFileSync('./update_employee.sql').toString();
 
 
 //function to start input prompts for the manager about employees
@@ -100,26 +98,32 @@ function addDept() {
         ])
 }
 
-function addRole() {
-    inquirer
+const addRole = async() => {
+    let departmentResults = await viewDepts();
+    let departmentNames = [];
+    departmentResults.forEach((element) => {
+        departmentNames.push(element.department_name);
+    })
+    let answers =  inquirer
         .prompt([
             {
                 type: 'input',
-                name: 'method',
+                name: 'roleName',
                 message: 'What is the name of the role you would like to add?',
             },
             {
                 type: 'input',
-                name: 'method',
+                name: 'salary',
                 message: 'What is the salary of the role?',
             },
             {
                 type: 'list',
-                name: 'method',
+                name: 'department',
                 message: 'What department does the role belong to?',
-                choices: ['Paper Solutions', 'Software Solutions'],
+                choices: departmentNames
             },
-        ])
+        ]);
+let fieldAndValues
 }
 
 function addEmployee() {
@@ -127,22 +131,22 @@ function addEmployee() {
         .prompt([
             {
                 type: 'input',
-                name: 'method',
+                name: 'firstName',
                 message: 'What is the first name of the employee you would like to add?',
             },
             {
                 type: 'input',
-                name: 'method',
+                name: 'lastName',
                 message: 'What is the last name of the employee you would like to add?',
             },
             {
                 type: 'list',
-                name: 'method',
+                name: 'role',
                 message: 'What is the role of the employee?',
             },
             {
                 type: 'list',
-                name: 'method',
+                name: 'manager',
                 message: 'Who is the employee\'s manager?',
                 choices: ['Michael Scott', 'Monical Hall']
             },
