@@ -66,6 +66,11 @@ function userInit() {
                         console.table(results[0][1]);
                     });
                     break;
+                case 'Add Role':
+                    let addRoleResults = await addRole(); 
+                        console.log('Added role + addRoleResults')
+                    });
+                    break;
                 case 'Exit':
                     console.log('Bye!');
                     process.exit();
@@ -74,7 +79,7 @@ function userInit() {
 };
 
 
-const viewDepts = async () => { 
+const viewDepts = async () => {
     let result = await connection.query(viewAllDepts);
     return result;
 };
@@ -98,13 +103,13 @@ function addDept() {
         ])
 }
 
-const addRole = async() => {
+const addRole = async () => {
     let departmentResults = await viewDepts();
     let departmentNames = [];
     departmentResults.forEach((element) => {
         departmentNames.push(element.department_name);
     })
-    let answers =  inquirer
+    let answers = await inquirer
         .prompt([
             {
                 type: 'input',
@@ -123,7 +128,9 @@ const addRole = async() => {
                 choices: departmentNames
             },
         ]);
-let fieldAndValues
+    let values = [ answers.roleName, answers.salary, answers.department ];
+    await connection.query(addRoleQuery, values); 
+    return answers.roleName;
 }
 
 function addEmployee() {

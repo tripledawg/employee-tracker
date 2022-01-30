@@ -76,7 +76,7 @@ SELECT er.id, 'Jared', 'Dunn', e.id FROM employee e
 INSERT INTO employee (employee_role_id, first_name, last_name, manager_id)
 SELECT er.id, 'Jian', 'Yang', e.id FROM employee e
     LEFT JOIN employee_role er on 'Engineer' = er.title
-    WHERE e.first_name = 'Erlich' AND e.last_name = '';
+    WHERE e.first_name = 'Erlich' AND e.last_name = 'Bachman';
 
 
 
