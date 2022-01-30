@@ -3,7 +3,7 @@ const inquirer = require('inquirer'); //for building user input prompts
 const fs = require('fs');//file system to write input to file
 const mysql = require('mysql2/promise');
 //middleware
-const table = require('console.table');//displays tables in a user friendly manner on command line 
+// const table = require('console.table');//displays tables in a user friendly manner on command line 
 //adding SQL queries
 // const addDept = require('add_dept.sql');
 // const addEmployee = require('add_employee.sql');
@@ -28,8 +28,8 @@ async function main() {
         password: 'CqK4ylt2p3',
         multipleStatements: 'true'  //so I can run schema and seed queries all at once
     });
-    let results1 = await connection.query(schemaInitialize);
-    let results2 = await connection.query(seedInsert);
+    await connection.query(schemaInitialize);
+    await connection.query(seedInsert);
     userInit();
 }
 
@@ -166,10 +166,4 @@ function updateEmployeeRole() {
         ])
 }
 
-
-//A constructor function or class could be helpful for organizing these.
-//You might also want to make your queries asynchronous. MySQL2 exposes a `.promise()` function on Connections 
-//to upgrade an existing non-Promise connection to use Promises. To learn more and make your queries asynchronous, 
-//refer to the [npm documentation on MySQL2](https://www.npmjs.com/package/mysql2).
-
-userInit();
+main();
