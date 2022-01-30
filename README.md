@@ -1,5 +1,7 @@
 # Employee-Tracker
   ## ![full size screenshot](Screenshot.png) 
+  ## ![departments](deptscreenshot.png)
+  ## ![roles](rolescreenshot.png)
  ## [Demo Video](https://watch.screencastify.com/v/680yDZbtzRenwcHIeAvc)
 
   ## Licensing:
