@@ -103,9 +103,9 @@ function addDept() {
 const addRole = async () => {
     let departmentResults = await viewDepts();
     let departmentNames = [];
-    departmentResults.forEach((element) => {
+    departmentResults[0][1].forEach((element) => {
         departmentNames.push(element.department_name);
-    })
+    });
     let answers = await inquirer
         .prompt([
             {
@@ -129,6 +129,7 @@ const addRole = async () => {
     await connection.query(addRoleQuery, values);
     return answers.roleName;
 }
+
 
 function addEmployee() {
     inquirer
